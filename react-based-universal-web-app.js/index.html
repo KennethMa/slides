@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>基于React生态的同构应用</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <style>
+      .reveal h2 {
+        text-transform: none;
+      }
+    </style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>基于React生态的同构Web APP</h1>
+					<p>
+						<small>By <a href="https://github.com/KennethMa">马志雄</a></small>
+					</p>
+				</section>
+				<section>
+          <p>Isomorphic <span class="fragment">?</span></p>
+          <p class="fragment">Universal</p>
+          <p class="fragment">
+            <img src="http://i.imgur.com/moqFHze.png" alt="">
+          </p>
+        </section>
+        <section>
+          <section>
+            <h2>Imperative VS Declarative</h2>
+          </section>
+          <section data-transition="slide">
+            <p>Imperative Programing（命令式编程）</p>
+            <p class="fragment">命令“机器”如何去做事情(how)，这样不管你想要的是什么(what)，它都会按照你的命令实现。</p>
+          </section>
+          <section data-transition="slide">
+            <p>Declarative Programing（声明式编程）</p>
+            <p class="fragment">告诉“机器”你想要的是什么(what)，让机器想出如何去做(how)。</p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>React.js</h2>
+            <img src="http://ww1.sinaimg.cn/large/006zqIDbgy1fepjaxaut6j31k608kjtp.jpg" alt="" class="fragment">
+            <img src="http://ww1.sinaimg.cn/large/006zqIDbgy1fepjglsaqmj31ku0redkm.jpg" class="fragment"/>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## Component
+              ``` javascript
+                render() {
+                  return (
+                    <h1>Hello, world!</h1>
+                  )
+                }
+              ```
+            </script>
+          </section>
+          <section>
+            <h2>Virtual DOM</h2>
+            <p class="fragment">React实现的伪DOM API</p>
+            <p class="fragment">innerHTML: render html string <b>O(template size)</b> + 重新创建所有 DOM 元素 <b>O(DOM size)</b></p>
+            <p class="fragment">Virtual DOM: render Virtual DOM + diff <b>O(template size)</b> + 必要的 DOM 更新 <b>O(DOM change)</b></p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>HOC</h1>
+            <h2>High Order Component</h2>
+          </section>
+          <section>
+            <img src="https://blog.pixelingene.com/images/2016-07-13-patterns-of-higher-order-components-in-react/hoc.png" alt="">
+          </section>
+          <section>
+            <ul>
+              <li>React Redux</li>
+              <li>Apollo</li>
+              <li>withStyles</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Redux</h2>
+            <img src="https://noootown.gitbooks.io/deeperience-react-native-boilerplate/content/images/redux.jpg" alt="" class="fragment">
+          </section>
+          <section>
+            <img src="https://css-tricks.com/wp-content/uploads/2016/03/redux-article-3-03.svg" alt="">
+          </section>
+          <section>
+            <img src="https://blog.tighten.co/assets/img/react-redux-diagram.png" alt="">
+          </section>
+          <section>
+            <h2>Redux DevTools</h2>
+            <img src="https://camo.githubusercontent.com/cc9b9701f3984f3b8cfb6264c214217b0451df09/687474703a2f2f692e696d6775722e636f6d2f51624e7a4e57342e676966" alt="">
+          </section>
+        </section>
+        <section>
+          <h2>CSS Modules</h2>
+          <img width="60%" src="http://andrewhfarmer.com/what-are-css-modules/img/css-modules-diagram-example.png" alt="" class="fragment">
+        </section>
+        <section>
+          <section>
+            <h2>GraphQL</h2>
+            <img width="70%" src="https://cdn-images-1.medium.com/max/800/1*f_XvFD7FvliMM74WHJ0vRQ.png" alt="" class="fragment">
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+            ## 合集页商品
+            ```
+              {
+                goods(id: 3776871) {
+                  item_id
+                  item_name
+                  item_imgurl
+                  price
+                }
+              }
+            ```
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+            ## 商详页商品
+            ```
+              {
+                goods(id: 3776871) {
+                  item_id
+                  item_name
+                  item_imgurl
+                  price
+                  item_desc
+                  ship_country
+                }
+              }
+            ```
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+            ## 商品数据Schema
+            ```
+              const GoodsItemType = new ObjectType({
+                name: 'GoodsItem',
+                description: '商品详情信息',
+                fields: {
+                  item_id: { type: new NonNull(IDType) },
+                  item_name: {
+                    type: new NonNull(StringType),
+                    description: '商品名称',
+                  },
+                  price: {
+                    type: new NonNull(StringType),
+                    description: '商品销售价',
+                  }
+                }
+              })
+            ```
+            </script>
+          </section>
+          <section>
+            <h2>DSQL</h2>
+            <p class="fragment">Domain Specific Query Language，领域特定查询语言</p>
+          </section>
+          <section>
+            <img width="80%" src="https://gtms01.alicdn.com/tps/i1/TB1MXPNLpXXXXaqXVXX1m7LTXXX-2040-1532.png" alt="">
+          </section>
+          <section>
+            <h2>GraphIQL</h2>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Apollo</h2>
+            <img width="70%" src="http://ww1.sinaimg.cn/large/006zqIDbgy1fepmv8pbbej314m0v0dlj.jpg"/>
+          </section>
+          <section>
+            <img src="https://cdn-images-1.medium.com/max/800/1*_2BxhMhdozoM_oN1VruLsA.png" alt="">
+          </section>
+        </section>
+        <section>
+          <h2>Universal Router</h2>
+          <ul>
+            <li>server端与client端路由同步</li>
+            <li>client端指定路由下业务模块与数据动态加载</li>
+            <li>路由重定向redirect</li>
+            <li>meta data</li>
+            <li>...</li>
+          </ul>
+        </section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'concave',
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+				]
+			});
+		</script>
+	</body>
+</html>
